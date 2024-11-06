@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        html{
+            scroll-behavior:initial;
+        }
+        #navbar{
+            height: 90px;
+            background-color: green;
+            display:flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        #navbar .logo{
+            width: 10%;
+            margin-left: 50px;
+            /* background-color: blueviolet; */
+        }
+
+        #navbar .logo img{
+            height: 70px;
+            width: 80px;
+            border-radius: 50%;
+            background-color: transparent;
+        }
+
+        #navbar ul{
+            /* background-color: yellowgreen; */
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            list-style: none;
+        }
+
+        #navbar ul li a{
+            text-decoration: none;
+            font-size: x-large;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 1000;
+            color: black;
+            padding: 12px;
+        }
+
+        #navbar ul li a:hover{
+            background-color: black;
+            color: white;
+            transition: 0.5s;
+            border-radius: 25px;
+        }
+
+        #navbar .searchbutton{
+            width: 40%;
+            /* background-color: seagreen; */
+        }
+
+        #navbar .searchbutton #search{
+            width: 350px;
+            height: 30px;
+            margin-right: 20px;
+        
+        }
+
+        #navbar .searchbutton #btn{
+            width: 100px;
+            height: 30px;
+            font-family:'Times New Roman', Times, serif;
+            font-size:medium;
+            font-weight: 500;
+            border-radius: 20px;
+            background-color: transparent;
+            border: 2px solid black;
+            color: black;
+        }
+
+        #navbar .searchbutton #btn:hover{
+            
+            background-color: black;
+            color: white;
+            transition: 0.1s;
+            border-radius: 25px;
+            
+        }
+        #home{
+            height: 500vh;
+            background-color: solid black;
+            /* background: url('https://w0.peakpx.com/wallpaper/337/361/HD-wallpaper-cyber-girl-cyberpunk-scifi-artist-artwork-digital-art-thumbnail.jpg') no-repeat center/cover; */
+            display: flex;
+            align-items: center;
+            justify-items: center;
+            flex-direction: column;
+        }
+
+        #home::before{
+            content:"";
+            height: 520%;
+            width: 100%;
+            background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAAY1BMVEUCAgIDAwMEBAQFBQUGBgYQEBBLS0sWFhaKiopPT08NDQ0lJSUeHh5bW1tISEihoaFkZGQbGxuenp6YmJiRkZFZWVkxMTEsLCxBQUE8PDwoKCinp6d+fn50dHRqamo+Pj5ubm6dwMvUAAADOklEQVR4nO3bXXPSQBSA4UQrWrUUi620auH//0pptu1sQiI5kD0f4X0nw7C5gJxnJjvhgup31m3WXbv1en23fnk97Oexvgz3J+vvW7vd7vl5fzyvVqubpvum66bFYrFcLjf7Y7PZbjePj9vHpoe3fu2Ppqenp2/tvmf9aPo80Ke+qtVBNwPdt7sebjHc8qDN5mXs1Ha7fR8+n//hbf5EkCu0538l6FXonX/f1+Gu2lWXXF3X3TMD51+7KtDHEX2YorpA7449ZGCBFQErNNMRKbDAco81him2FFhgOcbSZLKUAgssr1gzYBorBRZY/rDGMEWROs4EFljOsGbDJJMCCywfWMpMvqTAAssaayRTFKk0u0wKLLDssGbGdLoUWGBZYJkwKUh11MACyyfWLJnOlQILLC0sK6bSUmnY05nAAqs81nijcEyTSYEFVjGseTPV5z8ugAWWG6zJmZSlzmUCCyxTrLhME0uBBZYFVgmmwFJggaWLFZepnvaRHSywLLCiM1UltiqwwFLBKmSkxqQhBRZYxbDKMalJ5UwFpcACKxqWDlOts1WBBVY0LDWmuuhvZrDAiomlzFSpbVVggRUBS5PJTAossLxiGTJpS4EFlj8sZaZa/3kdrEvBqqvsbRQsA6UmYymwZoj1cgOa34NSLAMmD/s6WPPEyouBZUjjgikFliDPWHnWTk0+mdK1+ZKqwBLlFquzdJEro5zGF1MKLEEOsfKsedq5YkqX5FSqAkuUK6xO1jYHOTFKF9NZugssQX6wOkuPmTPVnh+sOoElyANWnrXHf/NA01n6zVCqBuucrDGOZesShikFliArrE7WDOOycgnGlAJLkAlWZxkmZab8Sw2nPjGwBClj9dqFSVOqCrqvvweWIDWsXrtgqbnEZkqBJUgBq9cuZAouc2BKgSWoKFavXeCKusyHKQWWoAJOrT8lpaX1lBM1vVX7Y22nmziwBE3qNN8bMDWlVfsDbecqEliCYBIEliCwBJ1vVF0CUwosQWAJOoepF27OgSUILEEwCQJLEFiCREbVxTKlwBIElqATmAyv1jiwBIEl6ChTL9yFBpYgsASxSQkCSxBYgmASBJYgsKhI/wBzkdQpTAeUIAAAAABJRU5ErkJggg==) no-repeat center/cover;
+            position: absolute;
+            top: 0;
+            z-index: -1;
+        }
+
+        #backvideo{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .content{
+            height: 10%;
+            /* border: 15px solid black; */
+            width: 90%;
+            background-color: transparent;
+            border-radius: 20px;
+            flex-direction: column;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            font-size: xx-large;
+            text-align: center;
+            font-weight: 400;
+            padding: 20px;
+            color: yellow;
+        }
+
+        #search{
+            border-radius: 20px;
+        }
+
+        .main1{
+            height: 90vh;
+            width: 100%;
+            display:  flex;
+            align-items: center;
+          justify-content:space-evenly;
+          /* background-color: aqua; */
+        }
+        .card{
+            height: 60%;
+            width: 20%;
+            background-color: transparent;
+            border: 2px solid white;
+            border-radius: 12px;
+            display:  flex;
+            flex-direction:row;
+            align-items:center;
+           justify-content: space-evenly;
+        }
+
+        #home .card:hover{
+            background-color: transparent;
+            color: transparent;
+            border:5px solid white ;
+            transition: 0.8s;
+            border-radius: 25px;
+
+        }
+
+
+        .main2{
+            height: 90vh;
+            width: 100%;
+            display:  flex;
+            align-items: center;
+          justify-content: space-evenly;
+          /* background-color: aqua; */
+        }
+        .card{
+            height: 60%;
+            width: 20%;
+            background-color: transparent;
+            border: 2px solid black;
+            border-radius: 12px;
+            display:  flex;
+            flex-direction:column;
+            align-items: center;
+            text-align: center;
+           justify-content: space-evenly;
+           color: transparent;
+           border: black;
+        
+        }
+
+        #home .card:hover{
+            background-color: transparent;
+            color: black;
+            transition: 0.5s;
+            border-radius: 25px;
+            transform: scale(1.2);
+
+        }
+
+
+        .main3{
+            height: 90vh;
+            width: 100%;
+            display:  flex;
+            align-items: center;
+          justify-content: space-evenly;
+          /* background-color: aqua; */
+        }
+        .card{
+            height: 60%;
+            width: 20%;
+            background-color: transparent;
+            border: 2px solid black;
+            border-radius: 12px;
+            display:  flex;
+            flex-direction:column;
+            align-items: center;
+           justify-content: space-evenly;
+           color: transparent;
+           border: black;
+        
+        }
+
+        #home .card:hover{
+            background-color: transparent;
+            color: black;
+            transition: 0.5s;
+            border-radius: 25px;
+            transform: scale(1.2);
+
+        }
+
+
+        .main4{
+            height: 90vh;
+            width: 100%;
+            display:  flex;
+            align-items: center;
+          justify-content: space-evenly;
+          /* background-color: aqua; */
+        }
+        .card{
+            height: 60%;
+            width: 20%;
+            background-color: transparent;
+            border: 2px solid black;
+            border-radius: 12px;
+            display:  flex;
+            flex-direction:column;
+            align-items: center;
+           justify-content: space-evenly;
+           color: white;
+           border: black;
+        
+        }
+
+        #home .card:hover{
+            background-color: white;
+            color: black;
+            transition: 0.5s;
+            border-radius: 25px;
+            transform: scale(1.2);
+
+        }
+
+
+  footer {
+    background-color: green;
+    color: black;
+    text-align:justify;
+    font-weight: 200px;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: x-large;
+    padding: 20px 50px;
+}
+
+.footer-content {
+    max-width: 1800px;
+    margin: 0 auto;
+    align-items:stretch;
+    /* text-align:center; */
+}
+
+.social-links {
+    list-style: none;
+    padding: 0;
+}
+
+.social-links li {
+    display: inline;
+    margin: 0 15px;
+}
+
+.social-links a {
+    color: black;
+    text-decoration:none;
+}
+
+.social-links a:hover {
+    text-decoration:underline;
+}
+
+    </style>
+</head>
+<body bgcolor="black">
+    <!--==========================================================================NAVBAR START==============================================================================-->
+    <nav id="navbar">
+        <div class="logo">
+            <img src="/first website/website images/websitelogo1.jfif" alt="">
+        </div>
+        <ul>
+            <li><a href="#">HOME</a></li>
+            <li><a href="#about">ABOUT US</a></li>
+            <li><a href="#contactus">CONTACT US</a></li>
+            <li><a href="#">SIGN UP</a></li>
+        </ul>
+        <div class="searchbutton">
+            <input type="search" id="search">
+            <button id="btn">SEARCH</button>
+
+        </div>
+    </nav>
+
+    <!--============================================================================NAVBAR END==============================================================================-->
+
+    <!--==========================================================home start===============================================================================================-->
+
+    <div id="home">
+         <video id="backvideo" muted autoplay loop> 
+            <!-- <source src="/first website/website images/4250244-uhd_1440_2160_30fps.mp4"> -->
+             </video>
+
+             
+
+        <div class="content">
+            <h1>FOR GAMERS BY GAMERS</h1>
+            <p>Welcome to GAMERS HUT, your ultimate gaming destination! Whether you're a hardcore gamer or just starting your journey, we’ve got something for everyone. Explore our vast collection of the latest releases, timeless classics, and hidden gems—all available for purchase at unbeatable prices. With easy navigation, exclusive deals, and a community of passionate gamers, we’re here to help you level up your gaming experience. Join us today and discover your next favorite game!</p>
+            <h2>AVAILABLE GAMES WITH US</h2>
+
+
+        </div>
+
+        <div class="main1">
+
+        
+        <div class="card">
+            <img src="/first website/website images/valo.jfif" alt="">
+            <h1>VALORANT</h1>
+        </div>
+
+        <div class="card">
+            <img src="/first website/website images/forza.jfif" alt="">
+            <h1>FORZA HORIZAN 5</h1>
+        </div>
+
+
+        <div class="card">
+            <img src="/first website/website images/bmw.jfif" alt="">
+            <h1>BLACK MYTH WUKONG</h1>
+        </div>
+
+       
+       
+    </div>
+    <div class="main2">
+
+        <div class="card">
+            <img src="/first website/website images/god.jfif" alt="">
+            <h1>GOD OF WAR</h1>
+        </div>
+
+        <div class="card">
+            <img src="/first website/website images/spider.jfif" alt="">
+            <h1>SPIDERMAN</h1>
+        </div>
+        
+
+        <div class="card">
+            <img src="/first website/website images/spider2.jfif" alt="">
+            <h1>SPIDERMAN 2</h1>
+        </div>
+
+        
+
+    </div>
+
+
+    <div class="main3">
+
+        <div class="card">
+            <img src="/first website/website images/rdr.jfif" alt="">
+            <h1>RED DEAD REDEMPTION</h1>
+        </div>
+
+        <div class="card">
+            <img src="/first website/website images/rdr2.jfif" alt="">
+            <h1>RED DEAD REDEMPTION 2</h1>
+        </div>
+        
+
+        <div class="card">
+            <img src="/first website/website images/gta5.jfif" alt="">
+            <h1>GRAND THEFT AUTO V</h1>
+        </div>
+
+        
+
+    </div>
+
+
+    <div class="main4">
+
+        <div class="card">
+            <img src="/first website/website images/download.jfif" alt="">
+            <h1>CALL OF DUTY MW 2</h1>
+        </div>
+
+        <div class="card">
+            <img src="/first website/website images/rdr2.jfif" alt="">
+            <h1>RED DEAD REDEMPTION 2</h1>
+        </div>
+        
+
+        <div class="card">
+            <img src="/first website/website images/gta5.jfif" alt="">
+            <h1>GRAND THEFT AUTO V</h1>
+        </div>
+
+        
+
+    </div>
+
+    <!--========================================================================================FOOTER================================================================================================= -->
+  
+  
+  
+    <div class="content" id="about">
+    <h1>Hey Gamer! 🎮</h1>
+    <p>Thanks for stopping by! We hope you found everything you were looking for. Don’t forget to check back often for the latest game reviews, news, and exclusive content. Your next adventure awaits!</p>
+    <h2>Stay awesome, and see you again soon!</h2>
+    
+   </div>
+   
+   
+   
+   
+   
+   
+   
+   
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 GAMERS HUT. All Rights Reserved.</p>
+            <ul class="social-links">
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">Twitter</a></li>
+                <li><a target="_blank" href="https://www.instagram.com/accounts/login/">Instagram</a></li>
+                <li><a href="#">YouTube</a></li>
+            </ul>
+        </div>
+    </footer>
+    
+    
+</body>
+</html>
